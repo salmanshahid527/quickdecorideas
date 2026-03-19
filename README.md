@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a **Next.js 15 (App Router)** site built with a **server-first + ISR** architecture on top of the **WordPress REST API** at `https://quickdecorideas.com/wp-json/`.
 
-## Getting Started
+## Getting started
 
-First, run the development server:
+Install and run:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ISR strategy (how it works)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- All routes in `app/**/page.tsx` are **Server Components** (no `"use client"` in pages/layouts).
+- CMS-driven pages export `export const revalidate = 60;` to enable **ISR everywhere**.
+- Server fetchers in `lib/wp/server.ts` use Next’s `fetch(..., { next: { revalidate } })` so the HTML and cached data revalidate together.
 
-## Learn More
+## Data access (no ad-hoc fetches)
 
-To learn more about Next.js, take a look at the following resources:
+- **Server fetchers (ISR / cached)** live in `lib/wp/server.ts`
+  - Used by route `page.tsx` files (SSR/ISR).
+- **Browser-safe fetchers** live in `lib/wp/api.ts`
+  - Used by React Query hooks.
+- **React Query hooks** live in `hooks/*`
+  - Hooks accept `initialData` so client markup matches SSR (no “empty then load” flash).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## SEO
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `generateMetadata()` per route (Blog index, Category, Post, WP pages)
+  - Canonicals via `alternates.canonical`
+  - OpenGraph + Twitter cards
+- JSON-LD components in `components/seo/`
+  - `OrganizationWebSiteJsonLd` is rendered in `app/layout.tsx`
+  - Post pages render `ArticleJsonLd` + `BreadcrumbJsonLd`
+- `app/opengraph-image.tsx` provides a default OG image (no binary assets required)
 
-## Deploy on Vercel
+## Routes implemented
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/` (Home)
+- `/blog`
+- `/blog/[slug]`
+- `/category/[slug]`
+- `/about`
+- `/contact`
+- `/privacy`
+- `/shop`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Add a new WP page route
+
+1. Create `app/<route>/page.tsx`
+2. Use `getPageBySlug("<wp-slug>")` in the server page
+3. Render `<WpPageContent slug="<wp-slug>" initialPage={page} />`
+
