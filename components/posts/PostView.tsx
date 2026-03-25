@@ -21,7 +21,7 @@ export function PostView({ post }: { post: Post }) {
             alt={post.featuredImage.alt ?? post.title}
             fill
             priority
-            sizes="(min-width: 1024px) 896px, 100vw"
+            sizes="(min-width: 1280px) 1120px, (min-width: 768px) 90vw, 100vw"
             className="object-cover"
           />
         </div>

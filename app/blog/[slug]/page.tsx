@@ -48,17 +48,15 @@ export default async function PostPage({ params }: Props) {
   return (
     <div className="py-10">
       <Container>
-        <div className="mx-auto w-full max-w-3xl lg:max-w-4xl">
-          <BreadcrumbJsonLd
-            items={[
-              { name: "Home", url: "/" },
-              { name: "Blog", url: "/blog" },
-              { name: post.title, url: `/blog/${post.slug}` },
-            ]}
-          />
-          <ArticleJsonLd post={post} />
-          <PostView post={post} />
-        </div>
+        <BreadcrumbJsonLd
+          items={[
+            { name: "Home", url: "/" },
+            { name: "Blog", url: "/blog" },
+            { name: post.title, url: `/blog/${post.slug}` },
+          ]}
+        />
+        <ArticleJsonLd post={post} />
+        <PostView post={post} />
       </Container>
     </div>
   );
