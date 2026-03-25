@@ -1,5 +1,5 @@
 import { JsonLd } from "./JsonLd";
-import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
+import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo/site";
 
 export function OrganizationWebSiteJsonLd() {
   const data = [
@@ -8,6 +8,7 @@ export function OrganizationWebSiteJsonLd() {
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
+      logo: absoluteUrl("/quick-decor-logo.png"),
     },
     {
       "@context": "https://schema.org",

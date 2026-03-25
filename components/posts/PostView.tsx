@@ -1,27 +1,8 @@
-"use client";
-
 import Image from "next/image";
-import { usePost } from "@/hooks/usePost";
 import type { Post } from "@/lib/wp/types";
 
-export function PostView({ slug, initialPost }: { slug: string; initialPost: Post | null }) {
-  const { data } = usePost(slug, initialPost);
-  const post = data ?? null;
-
-  if (!post) {
-    return (
-      <div className="space-y-4">
-        <div className="h-8 w-3/4 animate-pulse rounded bg-black/10" />
-        <div className="h-64 w-full animate-pulse rounded-2xl bg-black/10" />
-        <div className="space-y-2">
-          <div className="h-4 w-full animate-pulse rounded bg-black/10" />
-          <div className="h-4 w-11/12 animate-pulse rounded bg-black/10" />
-          <div className="h-4 w-10/12 animate-pulse rounded bg-black/10" />
-        </div>
-      </div>
-    );
-  }
-
+/** Server-rendered article body — data comes from RSC / ISR, no client refetch. */
+export function PostView({ post }: { post: Post }) {
   return (
     <article className="space-y-6">
       <header className="space-y-3">
@@ -29,7 +10,7 @@ export function PostView({ slug, initialPost }: { slug: string; initialPost: Pos
           {post.title}
         </h1>
         {post.author?.name ? (
-          <div className="text-sm text-black/60">By {post.author.name}</div>
+          <div className="text-sm text-[var(--muted)]">By {post.author.name}</div>
         ) : null}
       </header>
 
@@ -40,7 +21,7 @@ export function PostView({ slug, initialPost }: { slug: string; initialPost: Pos
             alt={post.featuredImage.alt ?? post.title}
             fill
             priority
-            sizes="100vw"
+            sizes="(min-width: 1024px) 896px, 100vw"
             className="object-cover"
           />
         </div>
@@ -50,4 +31,3 @@ export function PostView({ slug, initialPost }: { slug: string; initialPost: Pos
     </article>
   );
 }
-

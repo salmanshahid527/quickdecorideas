@@ -1,29 +1,36 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { WpPageContent } from "@/components/pages/WpPageContent";
+import { ContactPageFallback } from "@/components/pages/MarketingPageFallbacks";
 import { getPageBySlug } from "@/lib/wp/server";
+import { wpMarketingPageSlug } from "@/lib/wp/wpPageSlugs";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 
 export const revalidate = 60;
 
+const CONTACT_META_FALLBACK =
+  "Contact Quick Decor Ideas — questions, collaborations, and reader feedback.";
+
 export async function generateMetadata(): Promise<Metadata> {
+  const wpSlug = wpMarketingPageSlug("contact");
+  const page = await getPageBySlug(wpSlug);
   return buildMetadata({
-    title: "Contact",
-    description: "Get in touch with Quick Decor Ideas.",
+    title: page?.title ?? "Contact",
+    description: page ? metaDescriptionFromWpPage(page, CONTACT_META_FALLBACK) : CONTACT_META_FALLBACK,
     canonical: "/contact",
     type: "website",
   });
 }
 
 export default async function ContactPage() {
-  const page = await getPageBySlug("contact", { revalidate });
-  if (!page) notFound();
+  const wpSlug = wpMarketingPageSlug("contact");
+  const page = await getPageBySlug(wpSlug);
 
   return (
     <div className="py-10">
       <Container>
-        <WpPageContent slug="contact" initialPage={page} />
+        {page ? <WpPageContent page={page} /> : <ContactPageFallback />}
       </Container>
     </div>
   );

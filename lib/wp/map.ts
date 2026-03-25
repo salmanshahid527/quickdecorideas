@@ -11,9 +11,27 @@ import type {
   WpTerm,
   WpUser,
 } from "./types";
+import { sanitizeHtml } from "@/lib/html/sanitize";
+
+/** WordPress `rendered` fields often include basic HTML entities. */
+function decodeWpEntities(input: string | undefined | null): string {
+  if (input == null) return "";
+  return input
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&#8217;/g, "'")
+    .replace(/&#8216;/g, "'")
+    .replace(/&#8220;/g, "\u201c")
+    .replace(/&#8221;/g, "\u201d")
+    .replace(/&#8230;/g, "…")
+    .replace(/&nbsp;/g, " ");
+}
 
 function stripHtml(input: string): string {
-  return input.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  return decodeWpEntities(input.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim());
 }
 
 export function mapWpUser(user: WpUser | undefined): Author | undefined {
@@ -45,9 +63,9 @@ export function mapWpFeaturedMedia(media: WpMedia | undefined): ImageAsset | und
 export function mapWpCategory(cat: WpCategory): Category {
   return {
     id: cat.id,
-    name: cat.name,
+    name: decodeWpEntities(cat.name),
     slug: cat.slug,
-    description: cat.description,
+    description: cat.description ? decodeWpEntities(cat.description) : cat.description,
     count: cat.count,
   };
 }
@@ -71,8 +89,9 @@ function mapEmbeddedCategoryTerms(terms?: Array<Array<WpTerm>>): Category[] | un
 export function mapWpPost(post: WpPost, categoriesById?: Map<number, Category>): Post {
   const embeddedAuthor = post._embedded?.author?.[0];
   const embeddedMedia = post._embedded?.["wp:featuredmedia"]?.[0];
+  const categoryIds = post.categories ?? [];
   const mappedCategories = categoriesById
-    ? post.categories.map((id) => categoriesById.get(id)).filter(Boolean)
+    ? categoryIds.map((id) => categoriesById.get(id)).filter(Boolean)
     : undefined;
 
   const embeddedCategoryTerms = mappedCategories
@@ -84,14 +103,14 @@ export function mapWpPost(post: WpPost, categoriesById?: Map<number, Category>):
     id: post.id,
     slug: post.slug,
     title: stripHtml(post.title?.rendered ?? ""),
-    excerptHtml: post.excerpt?.rendered ?? "",
-    contentHtml: post.content?.rendered ?? "",
+    excerptHtml: sanitizeHtml(post.excerpt?.rendered),
+    contentHtml: sanitizeHtml(post.content?.rendered),
     publishedAt: post.date_gmt,
     updatedAt: post.modified_gmt,
     canonicalUrl: post.link,
     author: mapWpUser(embeddedAuthor),
     featuredImage: mapWpFeaturedMedia(embeddedMedia),
-    categoryIds: post.categories ?? [],
+    categoryIds,
     categories: finalCategories as Category[] | undefined,
   };
 }
@@ -101,7 +120,7 @@ export function mapWpPage(page: WpPage): Page {
     id: page.id,
     slug: page.slug,
     title: stripHtml(page.title?.rendered ?? ""),
-    contentHtml: page.content?.rendered ?? "",
+    contentHtml: sanitizeHtml(page.content?.rendered),
     canonicalUrl: page.link,
     publishedAt: page.date_gmt,
     updatedAt: page.modified_gmt,

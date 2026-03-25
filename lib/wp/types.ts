@@ -58,7 +58,8 @@ export type WpPost = {
   link: string;
   author: number;
   featured_media: number;
-  categories: number[];
+  /** WP usually sends this; treat as optional so mapping never throws. */
+  categories?: number[];
   _embedded?: {
     author?: WpUser[];
     "wp:featuredmedia"?: WpMedia[];

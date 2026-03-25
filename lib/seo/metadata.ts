@@ -5,6 +5,8 @@ type OgImage = { url: string; width?: number; height?: number; alt?: string };
 
 export function buildMetadata(input: {
   title: string;
+  /** Use on the homepage so the title is not duplicated with the layout template (`Site | Site`). */
+  absoluteTitle?: boolean;
   description?: string;
   canonical: string;
   ogImage?: OgImage;
@@ -14,9 +16,12 @@ export function buildMetadata(input: {
 }): Metadata {
   const canonical = absoluteUrl(input.canonical);
   const og = input.ogImage ?? DEFAULT_OG_IMAGE;
+  const titleForMeta: Metadata["title"] = input.absoluteTitle
+    ? { absolute: input.title }
+    : input.title;
 
   return {
-    title: input.title,
+    title: titleForMeta,
     description: input.description,
     alternates: { canonical },
     openGraph: {

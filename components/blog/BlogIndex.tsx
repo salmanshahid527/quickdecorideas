@@ -1,11 +1,8 @@
-"use client";
-
 import Link from "next/link";
 import { PostList } from "@/components/posts/PostList";
-import { useCategories } from "@/hooks/useCategories";
-import { usePosts } from "@/hooks/usePosts";
 import type { Category, Post } from "@/lib/wp/types";
 
+/** Blog listing from server-fetched props only (ISR). */
 export function BlogIndex({
   initialPosts,
   initialCategories,
@@ -13,35 +10,34 @@ export function BlogIndex({
   initialPosts: Post[];
   initialCategories: Category[];
 }) {
-  const postsQ = usePosts({ perPage: 12, page: 1 }, initialPosts);
-  const catsQ = useCategories(initialCategories);
-  const posts = postsQ.data ?? [];
-  const categories = catsQ.data ?? [];
+  const categoryLinks = initialCategories
+    .filter((c) => c.slug && c.slug.toLowerCase() !== "uncategorized")
+    .slice(0, 24);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-12">
-      <div className="lg:col-span-8">
-        <PostList posts={posts} />
-      </div>
-      <aside className="lg:col-span-4">
-        <div className="sticky top-6 space-y-4">
-          <div className="rounded-2xl border border-black/10 bg-white p-5">
-            <div className="text-sm font-semibold">Categories</div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {categories.slice(0, 24).map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/category/${c.slug}`}
-                  className="rounded-full bg-black/5 px-3 py-1 text-sm text-black/70 hover:bg-black/10"
-                >
-                  {c.name}
-                </Link>
-              ))}
-            </div>
-          </div>
+    <div className="space-y-10 md:space-y-12">
+      <nav
+        aria-label="Browse posts by category"
+        className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[var(--shadow-soft)] md:p-5"
+      >
+        <div className="text-sm font-semibold text-[var(--foreground)]">Categories</div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {categoryLinks.map((c) => (
+            <Link
+              key={c.id}
+              href={`/category/${c.slug}`}
+              className="rounded-full border border-transparent bg-[var(--surface-muted)] px-3 py-1.5 text-sm font-medium text-[var(--muted)] transition hover:border-[var(--border-subtle)] hover:bg-white hover:text-[var(--brand-primary)]"
+            >
+              {c.name}
+              {typeof c.count === "number" ? (
+                <span className="ml-1.5 text-xs font-semibold text-[var(--muted)]/70">({c.count})</span>
+              ) : null}
+            </Link>
+          ))}
         </div>
-      </aside>
+      </nav>
+
+      <PostList posts={initialPosts} variant="blog" priorityImageCount={4} />
     </div>
   );
 }
-

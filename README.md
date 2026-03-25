@@ -50,6 +50,6 @@ Open `http://localhost:3000`.
 ## Add a new WP page route
 
 1. Create `app/<route>/page.tsx`
-2. Use `getPageBySlug("<wp-slug>")` in the server page
-3. Render `<WpPageContent slug="<wp-slug>" initialPage={page} />`
+2. Use `getPageBySlug("<wp-slug>")` in the server page (marketing routes: `lib/wp/wpPageSlugs.ts`)
+3. Render `<WpPageContent wpSlug="<wp-slug>" initialPage={page} />`
 

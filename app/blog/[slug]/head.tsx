@@ -6,7 +6,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export default async function Head({ params }: Props) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug, { revalidate });
+  const post = await getPostBySlug(slug);
   const hero = post?.featuredImage?.url;
 
   return hero ? <link rel="preload" as="image" href={hero} /> : null;

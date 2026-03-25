@@ -6,7 +6,14 @@ export type WpFetchOptions = RequestInit & {
 
 export function wpUrl(path: string, params?: Record<string, string | number | boolean | undefined>) {
   const base = path.startsWith("http") ? path : `${WP_API_BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
-  const url = new URL(base);
+  let url: URL;
+  try {
+    url = new URL(base);
+  } catch {
+    throw new Error(
+      `Invalid WordPress API URL (check WORDPRESS_URL / NEXT_PUBLIC_WORDPRESS_URL / NEXT_PUBLIC_API_URL): ${base}`,
+    );
+  }
   if (params) {
     for (const [k, v] of Object.entries(params)) {
       if (v === undefined) continue;
@@ -16,8 +23,11 @@ export function wpUrl(path: string, params?: Record<string, string | number | bo
   return url.toString();
 }
 
+
 export async function fetchWpJson<T>(path: string, opts?: WpFetchOptions): Promise<T> {
-  const res = await fetch(path.startsWith("http") ? path : wpUrl(path), {
+  const url =
+    path.startsWith("http") || path.startsWith("/") ? path : wpUrl(path);
+  const res = await fetch(url, {
     headers: { Accept: "application/json", ...(opts?.headers ?? {}) },
     ...opts,
   });
@@ -27,6 +37,11 @@ export async function fetchWpJson<T>(path: string, opts?: WpFetchOptions): Promi
     throw new Error(`WP request failed (${res.status}) ${path}: ${text.slice(0, 400)}`);
   }
 
-  return (await res.json()) as T;
+  const text = await res.text();
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new Error(`WP response was not JSON (${path}): ${text.slice(0, 200)}`);
+  }
 }
 

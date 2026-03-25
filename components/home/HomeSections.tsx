@@ -26,7 +26,10 @@ function CategorySection({ category, initialPosts }: { category: Category; initi
     <section className="space-y-4">
       <div className="flex items-baseline justify-between gap-4">
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
-        <Link href={`/category/${category.slug}`} className="text-sm text-black/70 hover:text-black">
+        <Link
+          href={`/category/${category.slug}`}
+          className="text-sm text-[var(--muted)] transition hover:text-[var(--brand-primary)]"
+        >
           View all
         </Link>
       </div>
@@ -46,17 +49,17 @@ export function HomeSections({ initial }: { initial: HomeInitialData }) {
     <div className="space-y-12">
       <section className="grid gap-8 md:grid-cols-12">
         <div className="md:col-span-7">
-          <div className="rounded-3xl border border-black/10 bg-white p-6 md:p-8">
-            <div className="text-xs font-medium text-black/60">Featured</div>
+          <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-soft)] md:p-8">
+            <div className="text-xs font-medium text-[var(--muted)]">Featured</div>
             <h1 className="mt-2 text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
               Decor ideas that feel fresh, simple, and doable.
             </h1>
-            <p className="mt-3 text-base text-black/70">
+            <p className="mt-3 text-base text-[var(--muted)]">
               Browse the latest posts and category roundups—optimized for quick inspiration and practical steps.
             </p>
 
             {initial.primaryAuthor?.name ? (
-              <div className="mt-6 flex items-center gap-3 rounded-2xl bg-black/5 p-4">
+              <div className="mt-6 flex items-center gap-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-muted)] p-4">
                 {initial.primaryAuthor.avatarUrl ? (
                   <Image
                     src={initial.primaryAuthor.avatarUrl}
@@ -66,11 +69,11 @@ export function HomeSections({ initial }: { initial: HomeInitialData }) {
                     className="rounded-full"
                   />
                 ) : (
-                  <div className="h-9 w-9 rounded-full bg-black/10" />
+                  <div className="h-9 w-9 rounded-full bg-[var(--surface-muted)]" />
                 )}
                 <div>
                   <div className="text-sm font-semibold">{initial.primaryAuthor.name}</div>
-                  <div className="text-xs text-black/60">Editor</div>
+                  <div className="text-xs text-[var(--muted)]">Editor</div>
                 </div>
               </div>
             ) : null}
@@ -83,13 +86,13 @@ export function HomeSections({ initial }: { initial: HomeInitialData }) {
               <Link
                 key={p.id}
                 href={`/blog/${p.slug}`}
-                className="group block rounded-2xl border border-black/10 bg-white p-4 hover:bg-black/[0.02]"
+                className="group block rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[var(--shadow-soft)] transition hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)]"
               >
                 <div className="line-clamp-2 text-sm font-semibold tracking-tight group-hover:underline">
                   {p.title}
                 </div>
                 <div
-                  className="mt-2 line-clamp-2 text-sm text-black/70"
+                  className="mt-2 line-clamp-2 text-sm text-[var(--muted)]"
                   dangerouslySetInnerHTML={{ __html: p.excerptHtml }}
                 />
               </Link>
@@ -101,7 +104,10 @@ export function HomeSections({ initial }: { initial: HomeInitialData }) {
       <section className="space-y-4">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="text-xl font-semibold tracking-tight">Latest</h2>
-          <Link href="/blog" className="text-sm text-black/70 hover:text-black">
+          <Link
+            href="/blog"
+            className="text-sm text-[var(--muted)] transition hover:text-[var(--brand-primary)]"
+          >
             Browse all
           </Link>
         </div>
@@ -115,7 +121,7 @@ export function HomeSections({ initial }: { initial: HomeInitialData }) {
             <Link
               key={c.id}
               href={`/category/${c.slug}`}
-              className="rounded-full bg-black/5 px-3 py-1 text-sm text-black/70 hover:bg-black/10"
+              className="rounded-full border border-transparent bg-[var(--surface-muted)] px-3 py-1 text-sm text-[var(--muted)] transition hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)] hover:text-[var(--brand-primary)]"
             >
               {c.name}
             </Link>

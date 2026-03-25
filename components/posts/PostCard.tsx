@@ -20,15 +20,18 @@ function ArrowRightIcon() {
   );
 }
 
-export function PostCard({ post }: { post: Post }) {
+export function PostCard({
+  post,
+  priorityImage = false,
+  imageSizes = "(min-width: 1024px) 32vw, (min-width: 640px) 45vw, 100vw",
+}: {
+  post: Post;
+  priorityImage?: boolean;
+  imageSizes?: string;
+}) {
   return (
     <article
-      className="group overflow-hidden rounded-2xl bg-white 
-      border border-transparent
-      shadow-md transition-all duration-300
-      hover:border-[#5555ff]
-      hover:shadow-[0_20px_40px_rgba(85,85,255,0.3)]
-      hover:-translate-y-1"
+      className="group overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)]"
     >
       <Link href={`/blog/${post.slug}`} className="block">
 
@@ -39,17 +42,19 @@ export function PostCard({ post }: { post: Post }) {
               src={post.featuredImage.url}
               alt={post.featuredImage.alt ?? post.title}
               fill
+              sizes={imageSizes}
+              priority={priorityImage}
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
           )}
         </div>
 
         {/* Content */}
-        <div className="p-5 space-y-3">
+        <div className="space-y-3 px-5 pb-5 pt-6">
 
           {/* Categories */}
           {post.categories?.length ? (
-            <p className="text-xs font-semibold uppercase tracking-wide text-[#5555ff]">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--brand-secondary)]">
               {post.categories
                 .slice(0, 2)
                 .map((c) => c.name)
@@ -58,25 +63,25 @@ export function PostCard({ post }: { post: Post }) {
           ) : null}
 
           {/* Title */}
-          <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 transition group-hover:text-[#5555ff]">
+          <h3 className="text-lg font-semibold text-[var(--foreground)] line-clamp-2 transition group-hover:text-[var(--brand-primary)]">
             {post.title}
           </h3>
 
           {/* Excerpt */}
           <div
-            className="text-sm text-gray-600 line-clamp-3"
+            className="line-clamp-3 text-sm text-[var(--muted)]"
             dangerouslySetInnerHTML={{ __html: post.excerptHtml }}
           />
 
           {/* Author */}
           {post.author?.name ? (
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-[var(--muted)]">
               By {post.author.name}
             </p>
           ) : null}
 
           {/* Read More */}
-          <div className="flex items-center gap-2 pt-2 text-sm font-medium text-[#5555ff] opacity-0 transition-all duration-300 group-hover:opacity-100">
+          <div className="flex items-center gap-2 pt-2 text-sm font-medium text-[var(--brand-primary)] opacity-0 transition-all duration-300 group-hover:opacity-100">
             Read More
             <span className="transition group-hover:translate-x-1">
               <ArrowRightIcon />
