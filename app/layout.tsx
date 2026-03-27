@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   description: "Practical decor tips, room ideas, and inspiration.",
   robots: { index: true, follow: true },
   referrer: "origin-when-cross-origin",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
 };
 
 /** ISR for the shell (nav/footer categories). Literal required by Next.js — match `PAGE_ISR_SECONDS`. */
