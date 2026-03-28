@@ -3,13 +3,11 @@
  * Sync with Pages in WP admin when slugs change.
  *
  * Live site (quickdecorideas.com) publishes: about-us, contact-us, privacy-policy.
- * `shop` is reserved for a future WP page; until then the route shows the fallback UI.
  */
 export const WP_MARKETING_PAGE_SLUG = {
   about: "about-us",
   contact: "contact-us",
   privacy: "privacy-policy",
-  shop: "shop",
 } as const;
 
 export type MarketingPageRoute = keyof typeof WP_MARKETING_PAGE_SLUG;

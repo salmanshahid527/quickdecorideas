@@ -8,12 +8,12 @@ export function normalizeFeaturedImageUrl(url: string): string {
   if (trimmed.startsWith("//")) return `https:${trimmed}`;
   try {
     const u = new URL(trimmed);
-    if (
-      u.protocol === "http:" &&
-      (u.hostname === "quickdecorideas.com" || u.hostname === "www.quickdecorideas.com")
-    ) {
-      u.protocol = "https:";
-      return u.toString();
+    if (u.protocol === "http:") {
+      const h = u.hostname;
+      if (h !== "localhost" && h !== "127.0.0.1" && h !== "[::1]") {
+        u.protocol = "https:";
+        return u.toString();
+      }
     }
     return trimmed;
   } catch {

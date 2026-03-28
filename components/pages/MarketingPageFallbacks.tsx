@@ -50,26 +50,6 @@ export function ContactPageFallback() {
   );
 }
 
-export function ShopPageFallback() {
-  return (
-    <article className="space-y-5">
-      <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)] md:text-4xl">Shop</h1>
-      <p className={muted}>
-        Curated product roundups and shopping guides are published as blog posts. Browse by category or open the
-        blog to see the newest recommendations.
-      </p>
-      <p className="flex flex-wrap gap-4">
-        <Link href="/blog" className={link}>
-          Open the blog
-        </Link>
-        <Link href="/category/home-decor" className={link}>
-          Home decor
-        </Link>
-      </p>
-    </article>
-  );
-}
-
 export function PrivacyPageFallback() {
   return (
     <article className="space-y-5">

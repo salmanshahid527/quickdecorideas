@@ -11,7 +11,6 @@ const primaryNavItems = [
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-  { label: "Shop", href: "/shop" },
 ] as const;
 
 /** Matches live WP slugs when categories have not loaded yet. */

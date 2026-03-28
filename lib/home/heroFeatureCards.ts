@@ -45,7 +45,7 @@ const HERO_FEATURE_SLOTS: (CategorySlot | AnchorSlot)[] = [
     fallback: {
       title: "Home decor",
       description: "Accents, textiles, and finishing touches that elevate everyday spaces.",
-      cta: "Shop the look →",
+      cta: "Browse decor →",
     },
   },
   {
