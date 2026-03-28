@@ -45,3 +45,32 @@ export async function fetchWpJson<T>(path: string, opts?: WpFetchOptions): Promi
   }
 }
 
+/** Collection responses include `X-WP-Total` and `X-WP-TotalPages` (WordPress REST API). */
+export async function fetchWpCollectionJson<T>(
+  path: string,
+  opts?: WpFetchOptions,
+): Promise<{ data: T; total: number; totalPages: number }> {
+  const url =
+    path.startsWith("http") || path.startsWith("/") ? path : wpUrl(path);
+  const res = await fetch(url, {
+    headers: { Accept: "application/json", ...(opts?.headers ?? {}) },
+    ...opts,
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`WP request failed (${res.status}) ${path}: ${text.slice(0, 400)}`);
+  }
+
+  const total = Number.parseInt(res.headers.get("X-WP-Total") ?? "0", 10);
+  const totalPages = Math.max(1, Number.parseInt(res.headers.get("X-WP-TotalPages") ?? "1", 10));
+  const text = await res.text();
+  let data: T;
+  try {
+    data = JSON.parse(text) as T;
+  } catch {
+    throw new Error(`WP response was not JSON (${path}): ${text.slice(0, 200)}`);
+  }
+  return { data, total: Number.isFinite(total) ? total : 0, totalPages };
+}
+
