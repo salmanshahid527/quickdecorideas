@@ -58,6 +58,7 @@ export async function getPosts(params?: {
   page?: number;
   categoryId?: number;
   sticky?: boolean;
+  search?: string;
 }, opts?: WpServerFetchOptions): Promise<Post[]> {
   try {
     const data = await fetchWpJson<WpPost[]>(
@@ -66,6 +67,7 @@ export async function getPosts(params?: {
         page: params?.page ?? 1,
         categories: params?.categoryId,
         sticky: params?.sticky === true ? true : undefined,
+        search: params?.search || undefined,
         _embed: true,
       }),
       nextOpts(opts),
