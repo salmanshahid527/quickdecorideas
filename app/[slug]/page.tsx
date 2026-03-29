@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { PostView } from "@/components/posts/PostView";
-import { getPostBySlug } from "@/lib/wp/server";
+import { WpPageContent } from "@/components/pages/WpPageContent";
+import { getPostBySlug, getPageBySlug } from "@/lib/wp/server";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromHtml } from "@/lib/seo/metaDescription";
+import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 import { SITE_NAME } from "@/lib/seo/site";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
@@ -15,6 +17,16 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const page = await getPageBySlug(slug);
+  if (page) {
+    return buildMetadata({
+      title: page.title,
+      description: metaDescriptionFromWpPage(page, `${page.title} — ${SITE_NAME}.`),
+      canonical: `/${slug}`,
+      type: "website",
+    });
+  }
+
   const post = await getPostBySlug(slug);
   if (!post) return {};
 
@@ -25,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     title: post.title,
     description,
-    canonical: `/blog/${slug}`,
+    canonical: `/${slug}`,
     ogImage: post.featuredImage?.url
       ? {
           url: post.featuredImage.url,
@@ -40,10 +52,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default async function PostPage({ params }: Props) {
+export default async function SlugPage({ params }: Props) {
   const { slug } = await params;
+  const page = await getPageBySlug(slug);
+  if (page) {
+    return (
+      <div className="py-10">
+        <Container>
+          <WpPageContent page={page} />
+        </Container>
+      </div>
+    );
+  }
+
   const post = await getPostBySlug(slug);
   if (!post) notFound();
+
+  const primaryCat = post.categories?.[0];
 
   return (
     <div className="py-10">
@@ -51,8 +76,10 @@ export default async function PostPage({ params }: Props) {
         <BreadcrumbJsonLd
           items={[
             { name: "Home", url: "/" },
-            { name: "Blog", url: "/blog" },
-            { name: post.title, url: `/blog/${post.slug}` },
+            ...(primaryCat
+              ? [{ name: primaryCat.name, url: `/category/${primaryCat.slug}` }]
+              : [{ name: "Blog", url: "/blog" }]),
+            { name: post.title, url: `/${post.slug}` },
           ]}
         />
         <ArticleJsonLd post={post} />
@@ -61,4 +88,3 @@ export default async function PostPage({ params }: Props) {
     </div>
   );
 }
-

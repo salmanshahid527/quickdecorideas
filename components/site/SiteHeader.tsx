@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 
@@ -77,11 +77,7 @@ export type SiteHeaderCategoryNavItem = { label: string; href: string };
 
 export function SiteHeader({ categoryNavItems }: { categoryNavItems?: SiteHeaderCategoryNavItem[] }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const blogNavItems =
     categoryNavItems && categoryNavItems.length > 0 ? categoryNavItems : FALLBACK_CATEGORY_NAV;
@@ -103,24 +99,7 @@ export function SiteHeader({ categoryNavItems }: { categoryNavItems?: SiteHeader
 
   useEffect(() => {
     setOpen(false);
-    setSearchOpen(false);
-    setSearchQuery("");
   }, [pathname]);
-
-  useEffect(() => {
-    if (searchOpen) {
-      searchInputRef.current?.focus();
-    }
-  }, [searchOpen]);
-
-  function handleSearchSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const q = searchQuery.trim();
-    if (!q) return;
-    router.push(`/search?q=${encodeURIComponent(q)}`);
-    setSearchOpen(false);
-    setSearchQuery("");
-  }
 
   return (
     <header className="sticky top-0 z-50 w-full overflow-x-clip border-b border-slate-200 bg-white text-slate-800 shadow-sm">
@@ -160,15 +139,13 @@ export function SiteHeader({ categoryNavItems }: { categoryNavItems?: SiteHeader
           </nav>
 
           <div className="col-span-5 flex items-center justify-end gap-2 md:col-span-3">
-            <button
-              type="button"
-              aria-label={searchOpen ? "Close search" : "Open search"}
-              aria-expanded={searchOpen}
-              onClick={() => setSearchOpen((v) => !v)}
+            <Link
+              href="/search"
+              aria-label="Search"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-[var(--brand-primary)]"
             >
               <SearchIcon />
-            </button>
+            </Link>
 
             <Link
               href="/contact"
@@ -188,32 +165,6 @@ export function SiteHeader({ categoryNavItems }: { categoryNavItems?: SiteHeader
           </div>
         </div>
       </Container>
-
-      {searchOpen && (
-        <div className="border-t border-slate-200 bg-white">
-          <Container>
-            <form onSubmit={handleSearchSubmit} className="flex items-center gap-3 py-3">
-              <SearchIcon className="shrink-0 text-slate-400" />
-              <input
-                ref={searchInputRef}
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
-                placeholder="Search posts…"
-                className="min-w-0 flex-1 bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none"
-              />
-              <button
-                type="submit"
-                disabled={!searchQuery.trim()}
-                className="shrink-0 rounded-full bg-[var(--brand-primary)] px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-[var(--brand-primary-hover)] disabled:opacity-40"
-              >
-                Search
-              </button>
-            </form>
-          </Container>
-        </div>
-      )}
 
       <div className="hidden border-t border-slate-200 bg-white md:block">
         <Container>

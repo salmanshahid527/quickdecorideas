@@ -51,3 +51,17 @@ export async function fetchPageBySlug(slug: string): Promise<Page | null> {
   return found ? mapWpPage(found) : null;
 }
 
+export async function fetchSearchPosts(query: string): Promise<Post[]> {
+  const q = query.trim();
+  if (!q) return [];
+  const data = await fetchWpJson<WpPost[]>(
+    wpApiProxyPath("wp/v2/posts", {
+      search: q,
+      _embed: true,
+      per_page: 20,
+      status: "publish",
+    }),
+  );
+  return data.map((p) => mapWpPost(p));
+}
+

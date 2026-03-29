@@ -43,7 +43,7 @@ function postRowsToEntries(
   rows: Array<{ slug: string; lastModified?: Date }>,
 ): MetadataRoute.Sitemap {
   return rows.map((p) => ({
-    url: `${SITE_URL}/blog/${p.slug}`,
+    url: `${SITE_URL}/${p.slug}`,
     lastModified: p.lastModified,
     changeFrequency: "weekly" as const,
     priority: 0.85,

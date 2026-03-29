@@ -8,7 +8,7 @@ export function ArticleJsonLd({ post }: { post: Post }) {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
-    mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+    mainEntityOfPage: absoluteUrl(`/${post.slug}`),
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     author: post.author?.name

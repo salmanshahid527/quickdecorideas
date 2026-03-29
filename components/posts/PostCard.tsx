@@ -33,7 +33,7 @@ export function PostCard({
     <article
       className="group overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)]"
     >
-      <Link href={`/blog/${post.slug}`} className="block">
+      <Link href={`/${post.slug}`} className="block">
 
         {/* Image */}
         <div className="relative aspect-[16/10] overflow-hidden">

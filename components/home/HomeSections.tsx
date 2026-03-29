@@ -85,7 +85,7 @@ export function HomeSections({ initial }: { initial: HomeInitialData }) {
             {featured.slice(0, 3).map((p) => (
               <Link
                 key={p.id}
-                href={`/blog/${p.slug}`}
+                href={`/${p.slug}`}
                 className="group block rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[var(--shadow-soft)] transition hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)]"
               >
                 <div className="line-clamp-2 text-sm font-semibold tracking-tight group-hover:underline">
