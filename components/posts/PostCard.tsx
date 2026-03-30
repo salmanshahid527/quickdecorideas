@@ -20,6 +20,18 @@ function ArrowRightIcon() {
   );
 }
 
+function formatDateTimeShort(iso?: string): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
 export function PostCard({
   post,
   priorityImage = false,
@@ -31,7 +43,7 @@ export function PostCard({
 }) {
   return (
     <article
-      className="group overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)]"
+      className="group overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)] h-full flex flex-col"
     >
       <Link href={`/${post.slug}`} className="block">
 
@@ -50,7 +62,7 @@ export function PostCard({
         </div>
 
         {/* Content */}
-        <div className="space-y-3 px-5 pb-5 pt-6">
+        <div className="space-y-3 px-5 pb-5 pt-6 flex-1 flex flex-col">
 
           {/* Categories */}
           {post.categories?.length ? (
@@ -80,8 +92,17 @@ export function PostCard({
             </p>
           ) : null}
 
+          {/* Published date/time */}
+          {post.publishedAt ? (
+            <p className="text-xs text-[var(--muted)]">
+              <time dateTime={post.publishedAt}>
+                {formatDateTimeShort(post.publishedAt)}
+              </time>
+            </p>
+          ) : null}
+
           {/* Read More */}
-          <div className="flex items-center gap-2 pt-2 text-sm font-medium text-[var(--brand-primary)] opacity-0 transition-all duration-300 group-hover:opacity-100">
+          <div className="flex items-center gap-2 pt-2 text-sm font-medium text-[var(--brand-primary)] opacity-0 transition-all duration-300 group-hover:opacity-100 mt-auto">
             Read More
             <span className="transition group-hover:translate-x-1">
               <ArrowRightIcon />

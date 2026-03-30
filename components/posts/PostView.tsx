@@ -1,6 +1,18 @@
 import Image from "next/image";
 import type { Post } from "@/lib/wp/types";
 
+function formatDateTimeShort(iso?: string): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
 /** Server-rendered article body — data comes from RSC / ISR, no client refetch. */
 export function PostView({ post }: { post: Post }) {
   return (
@@ -11,6 +23,13 @@ export function PostView({ post }: { post: Post }) {
         </h1>
         {post.author?.name ? (
           <div className="text-sm text-[var(--muted)]">By {post.author.name}</div>
+        ) : null}
+        {post.publishedAt ? (
+          <div className="text-sm text-[var(--muted)]">
+            <time dateTime={post.publishedAt}>
+              {formatDateTimeShort(post.publishedAt)}
+            </time>
+          </div>
         ) : null}
       </header>
 
