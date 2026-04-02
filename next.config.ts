@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 /* Multiple lockfiles (e.g. ~/package-lock.json + this repo) make Next infer the wrong
  * workspace root, so PostCSS/Tailwind may not run and the site renders unstyled. */
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const configDir = path.dirname(fileURLToPath(import.meta.url));
 
 type RemotePattern = NonNullable<
   NonNullable<NextConfig["images"]>["remotePatterns"]
@@ -54,7 +54,7 @@ function imageRemotePatterns(): RemotePattern[] {
 }
 
 const nextConfig: NextConfig = {
-  outputFileTracingRoot: __dirname,
+  outputFileTracingRoot: configDir,
   images: {
     remotePatterns: imageRemotePatterns(),
   },
