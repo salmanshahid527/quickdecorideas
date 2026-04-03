@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { PostView } from "@/components/posts/PostView";
 import { WpPageContent } from "@/components/pages/WpPageContent";
-import { getPostBySlug, getPageBySlug } from "@/lib/wp/server";
+import { getPostBySlug, getPageBySlug, getRelatedPostsByCategory } from "@/lib/wp/server";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromHtml } from "@/lib/seo/metaDescription";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
@@ -70,6 +70,17 @@ export default async function SlugPage({ params }: Props) {
 
   const primaryCat = post.categories?.[0];
 
+  // Fetch related posts if category exists
+  const relatedPosts = [];
+  if (primaryCat?.id) {
+    try {
+      const posts = await getRelatedPostsByCategory(primaryCat.id, post.slug, 4);
+      relatedPosts.push(...posts);
+    } catch (err) {
+      console.log("Could not fetch related posts:", err);
+    }
+  }
+
   return (
     <div className="py-10">
       <Container>
@@ -83,7 +94,7 @@ export default async function SlugPage({ params }: Props) {
           ]}
         />
         <ArticleJsonLd post={post} />
-        <PostView post={post} />
+        <PostView post={post} relatedPosts={relatedPosts} />
       </Container>
     </div>
   );

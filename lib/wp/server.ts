@@ -114,6 +114,37 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
   return getPageBySlugCached(slug);
 }
 
+/** Get related posts by category ID (excluding the current post) */
+export async function getRelatedPostsByCategory(
+  categoryId: number,
+  currentPostSlug: string,
+  limit: number = 4,
+  opts?: WpServerFetchOptions,
+): Promise<Post[]> {
+  try {
+    const data = await fetchWpJson<WpPost[]>(
+      wpUrl("wp/v2/posts", {
+        categories: categoryId,
+        _embed: true,
+        per_page: limit + 5,
+        page: 1,
+      }),
+      nextOpts(opts),
+    );
+    
+    const posts = (Array.isArray(data) ? data : [])
+      .map(p => safeMapWpPost(p))
+      .filter((p): p is Post => p !== null);
+    
+    return posts
+      .filter((p) => p.slug !== currentPostSlug)
+      .slice(0, limit);
+  } catch (err) {
+    console.error("getRelatedPostsByCategory: WordPress request failed", err);
+    return [];
+  }
+}
+
 type WpPostSitemapRow = { slug: string; modified_gmt?: string };
 
 /** All categories (paginated), for sitemaps when there are more than 100 terms. */
