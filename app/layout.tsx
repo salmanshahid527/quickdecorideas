@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
@@ -59,11 +60,24 @@ export default async function RootLayout({
     .filter((c) => c.slug && c.name && c.slug.toLowerCase() !== "uncategorized")
     .map((c) => ({ label: c.name, href: `/category/${c.slug}` }));
 
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
+
   return (
     <html lang="en">
       <body
         className={`${inter.variable} bg-[var(--surface)] font-sans text-[var(--foreground)] antialiased`}
       >
+        {gaId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="lazyOnload"
+            />
+            <Script id="google-analytics" strategy="lazyOnload">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaId}');`}
+            </Script>
+          </>
+        )}
         <OrganizationWebSiteJsonLd />
         <ReactQueryProvider>
           <SiteHeader categoryNavItems={categoryNavItems} />
