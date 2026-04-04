@@ -7,6 +7,7 @@ import { getPostBySlug, getPageBySlug, getRelatedPostsByCategory } from "@/lib/w
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromHtml } from "@/lib/seo/metaDescription";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
+import { fetchRankMathDescription } from "@/lib/wp/rankmath";
 import { SITE_NAME } from "@/lib/seo/site";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
@@ -30,7 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(slug);
   if (!post) return {};
 
+  const rankMathDesc = await fetchRankMathDescription(slug);
   const description =
+    rankMathDesc ??
     metaDescriptionFromHtml(post.excerptHtml) ??
     `${post.title} — practical decor ideas and inspiration from ${SITE_NAME}.`;
 
