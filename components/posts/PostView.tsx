@@ -23,34 +23,47 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
 
   return (
     <article className="space-y-6">
-      <header className="space-y-3">
-        <h1 className="text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
-          {post.title}
-        </h1>
-        {post.author?.name ? (
-          <div className="text-sm text-(--muted)">By {post.author.name}</div>
-        ) : null}
-        {post.publishedAt ? (
-          <div className="text-sm text-(--muted)">
-            <time dateTime={post.publishedAt}>
-              {formatDateTimeShort(post.publishedAt)}
-            </time>
-          </div>
-        ) : null}
-      </header>
+      {/* Hero section with featured image as background */}
+      {/* eslint-disable-next-line @next/next/no-css-tags */}
+      <section 
+        // eslint-disable-next-line react/no-danger-with-children
+        className="relative py-16 sm:py-20 lg:py-24 overflow-hidden rounded-2xl"
+        style={{
+          backgroundImage: post.featuredImage?.url 
+            ? `url('${post.featuredImage.url}')` 
+            : 'linear-gradient(135deg, rgb(0, 0, 0, 0.1), rgb(0, 0, 0, 0.1))',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/50 rounded-2xl" />
+        
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-2xl" />
 
-      {post.featuredImage?.url ? (
-        <div className="relative aspect-video overflow-hidden rounded-2xl bg-black/5">
-          <Image
-            src={post.featuredImage.url}
-            alt={post.featuredImage.alt ?? post.title}
-            fill
-            priority
-            sizes="(min-width: 1280px) 1120px, (min-width: 768px) 90vw, 100vw"
-            className="object-cover"
-          />
+        {/* Hero content */}
+        <div className="relative">
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight md:text-4xl text-white drop-shadow-lg px-4">
+            {post.title}
+          </h1>
+          
+          <div className="space-y-2 mt-4 px-4">
+            {post.author?.name ? (
+              <div className="text-sm text-white/90 drop-shadow">By {post.author.name}</div>
+            ) : null}
+            {post.publishedAt ? (
+              <div className="text-sm text-white/80 drop-shadow">
+                <time dateTime={post.publishedAt}>
+                  {formatDateTimeShort(post.publishedAt)}
+                </time>
+              </div>
+            ) : null}
+          </div>
         </div>
-      ) : null}
+      </section>
+
+      {/* Article content */}
 
       <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
 
