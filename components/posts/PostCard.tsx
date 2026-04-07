@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaPinterest } from "react-icons/fa";
 import type { Post } from "@/lib/wp/types";
 
 function ArrowRightIcon() {
@@ -43,8 +44,35 @@ export function PostCard({
 }) {
   return (
     <article
-      className="group overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)] h-full flex flex-col"
+      className="group overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--border-medium)] hover:shadow-[var(--shadow-card-hover)] h-full flex flex-col relative"
     >
+      {/* Pinterest Button - Absolutely positioned outside Link */}
+      <a
+        href="https://pinterest.com/quickdecorideas"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        aria-label="Share on Pinterest"
+        className={`
+          absolute top-2 left-2 sm:top-3 sm:left-3 md:top-4 md:left-4
+          z-20
+          w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12
+          bg-[#E60023] hover:bg-[#C41E14]
+          rounded-full
+          flex items-center justify-center
+          shadow-lg hover:shadow-2xl
+          transition-all duration-300 ease-out
+          opacity-0 sm:group-hover:opacity-100
+          md:group-hover:opacity-100
+          lg:opacity-100
+          pointer-events-auto
+          active:scale-95
+          ring-2 ring-white/20 hover:ring-white/40
+        `}
+      >
+        <FaPinterest className="w-5 h-5 text-white" />
+      </a>
+
       <Link href={`/${post.slug}`} className="block">
 
         {/* Image */}
@@ -85,21 +113,17 @@ export function PostCard({
             dangerouslySetInnerHTML={{ __html: post.excerptHtml }}
           />
 
-          {/* Author */}
-          {post.author?.name ? (
-            <p className="text-xs text-[var(--muted)]">
-              By {post.author.name}
-            </p>
-          ) : null}
-
-          {/* Published date/time */}
-          {post.publishedAt ? (
-            <p className="text-xs text-[var(--muted)]">
+          {/* Author and Date */}
+          <div className="flex flex-col gap-1 text-xs text-[var(--muted)]">
+            {post.publishedAt && (
               <time dateTime={post.publishedAt}>
                 {formatDateTimeShort(post.publishedAt)}
               </time>
-            </p>
-          ) : null}
+            )}
+            {post.author?.name && (
+              <p>By {post.author.name}</p>
+            )}
+          </div>
 
           {/* Read More */}
           <div className="flex items-center gap-2 pt-2 text-sm font-medium text-[var(--brand-primary)] opacity-0 transition-all duration-300 group-hover:opacity-100 mt-auto">
