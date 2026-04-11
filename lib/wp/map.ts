@@ -13,10 +13,35 @@ import type {
 } from "./types";
 import { sanitizeHtml } from "@/lib/html/sanitize";
 
+/** Decimal / hex numeric entities (e.g. `&#038;` → `&`) after double-encoding cleanup. */
+function decodeNumericHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;#(\d{1,7});/g, "&#$1;")
+    .replace(/&amp;#x([0-9a-f]{1,6});/gi, "&#x$1;")
+    .replace(/&#(\d{1,7});/g, (_, dec) => {
+      const n = Number.parseInt(dec, 10);
+      if (!Number.isFinite(n) || n < 1 || n > 0x10ffff) return _;
+      try {
+        return String.fromCodePoint(n);
+      } catch {
+        return _;
+      }
+    })
+    .replace(/&#x([0-9a-f]{1,6});/gi, (_, hex) => {
+      const n = Number.parseInt(hex, 16);
+      if (!Number.isFinite(n) || n < 1 || n > 0x10ffff) return _;
+      try {
+        return String.fromCodePoint(n);
+      } catch {
+        return _;
+      }
+    });
+}
+
 /** WordPress `rendered` fields often include basic HTML entities. */
 function decodeWpEntities(input: string | undefined | null): string {
   if (input == null) return "";
-  return input
+  const named = input
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
@@ -28,6 +53,7 @@ function decodeWpEntities(input: string | undefined | null): string {
     .replace(/&#8221;/g, "\u201d")
     .replace(/&#8230;/g, "…")
     .replace(/&nbsp;/g, " ");
+  return decodeNumericHtmlEntities(named);
 }
 
 function stripHtml(input: string): string {
