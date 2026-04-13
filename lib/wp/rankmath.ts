@@ -3,13 +3,20 @@
  * Calls `rankmath/v1/getHead` to retrieve the meta description
  * configured in Rank Math for a given post URL.
  *
+ * The `url` query param must be the **public canonical** permalink (same as
+ * `post.link` in WordPress), not the headless API host.
+ *
  * Requires "Headless CMS Support" enabled in Rank Math → General → Others.
  */
 
+import { cache } from "react";
+import { SITE_URL } from "@/lib/seo/site";
 import { WP_API_BASE } from "./constants";
 
-function getWpRoot(): string {
-  return WP_API_BASE.replace(/\/wp-json$/i, "").replace(/\/$/, "");
+function getRankMathApiOrigin(): string {
+  const base = WP_API_BASE.replace(/\/+$/, "").replace(/\/wp-json$/i, "");
+  if (base) return base;
+  return SITE_URL.replace(/\/+$/, "");
 }
 
 function decodeEntities(s: string): string {
@@ -38,16 +45,18 @@ function parseDescriptionFromHead(html: string): string | undefined {
   return undefined;
 }
 
-export async function fetchRankMathDescription(
+async function fetchRankMathDescriptionImpl(
   slug: string,
   timeoutMs = 8000,
 ): Promise<string | undefined> {
-  const wpRoot = getWpRoot();
-  const permalink = `${wpRoot}/${slug}/`;
+  const apiOrigin = getRankMathApiOrigin();
+  const siteBase = SITE_URL.replace(/\/+$/, "");
+  const cleanSlug = slug.replace(/^\/+/, "").replace(/\/+$/, "");
+  const permalink = `${siteBase}/${cleanSlug}/`;
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
-    const u = new URL(`${wpRoot}/wp-json/rankmath/v1/getHead`);
+    const u = new URL(`${apiOrigin}/wp-json/rankmath/v1/getHead`);
     u.searchParams.set("url", permalink);
     const res = await fetch(u.toString(), {
       next: { revalidate: 300 },
@@ -63,3 +72,5 @@ export async function fetchRankMathDescription(
     clearTimeout(timer);
   }
 }
+
+export const fetchRankMathDescription = cache(fetchRankMathDescriptionImpl);
