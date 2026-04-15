@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import Link from "next/link";
-import Image from "next/image";
+import { SmartImage as Image } from "@/components/ui/SmartImage";
 import { HeroFeatureCards } from "@/components/home/HeroFeatureCards";
 import { HomeFaqSection } from "@/components/home/HomeFaqSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
