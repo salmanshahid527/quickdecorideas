@@ -7,7 +7,7 @@ import { wpMarketingPageSlug } from "@/lib/wp/wpPageSlugs";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 const ABOUT_META_FALLBACK =
   "Learn more about Quick Decor Ideas — our mission, editorial approach, and practical home inspiration.";

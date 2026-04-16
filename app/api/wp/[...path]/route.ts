@@ -23,7 +23,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ path: strin
 
   const res = await fetch(target.toString(), {
     headers: { Accept: "application/json" },
-    next: { revalidate: 60 },
+    next: { revalidate: 3600 },
   });
 
   const text = await res.text();
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ path: strin
     status: res.status,
     headers: {
       "Content-Type": res.headers.get("content-type") ?? "application/json",
-      "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }

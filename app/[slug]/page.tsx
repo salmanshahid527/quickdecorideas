@@ -12,7 +12,7 @@ import { SITE_NAME } from "@/lib/seo/site";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 type Props = { params: Promise<{ slug: string }> };
 

@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { PAGE_ISR_SECONDS } from "@/lib/seo/isr";
 import { categoryMetaDescription } from "@/lib/seo/wpMeta";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 type Props = { params: Promise<{ slug: string }> };
 

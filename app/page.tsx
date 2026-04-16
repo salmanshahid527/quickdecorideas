@@ -18,7 +18,7 @@ import { getCategories, getPosts } from "@/lib/wp/server";
 import type { Category, Post } from "@/lib/wp/types";
 
 /** Next.js: must be a literal. Match `PAGE_ISR_SECONDS` in `lib/seo/isr.ts`. */
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({

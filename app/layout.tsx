@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 /** ISR for the shell (nav/footer categories). Literal required by Next.js — match `PAGE_ISR_SECONDS`. */
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const viewport: Viewport = {
   width: "device-width",

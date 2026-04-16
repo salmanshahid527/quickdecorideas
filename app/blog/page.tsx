@@ -5,7 +5,7 @@ import { getCategories, getPosts } from "@/lib/wp/server";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { PAGE_ISR_SECONDS } from "@/lib/seo/isr";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({

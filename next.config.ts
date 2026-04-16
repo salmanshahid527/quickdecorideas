@@ -56,6 +56,8 @@ function imageRemotePatterns(): RemotePattern[] {
 const nextConfig: NextConfig = {
   outputFileTracingRoot: configDir,
   images: {
+    /** Bypass Vercel Image Optimization transforms (Hobby quota); WP/CDN serve sized assets */
+    unoptimized: true,
     remotePatterns: imageRemotePatterns(),
   },
 };
