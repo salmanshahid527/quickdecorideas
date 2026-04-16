@@ -2,6 +2,7 @@ import { cache } from "react";
 import { WP_SITEMAP_PAGE_SIZE } from "@/lib/seo/sitemapConfig";
 import { DEFAULT_PER_PAGE, DEFAULT_REVALIDATE_SECONDS } from "./constants";
 import { fetchWpCollectionJson, fetchWpJson, wpUrl } from "./http";
+import { isHeadlessExcludedWpPageSlug } from "./excludedPublicWpPages";
 import { mapWpCategory, mapWpPage, mapWpPost } from "./map";
 import type { Category, Page, Post, WpCategory, WpPage, WpPost, WpUser, Author } from "./types";
 
@@ -98,6 +99,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 }
 
 const getPageBySlugCached = cache(async (slug: string): Promise<Page | null> => {
+  if (isHeadlessExcludedWpPageSlug(slug)) return null;
   try {
     const data = await fetchWpJson<WpPage[]>(
       wpUrl("wp/v2/pages", { slug, per_page: 1 }),
