@@ -3,8 +3,6 @@ import { Container } from "@/components/ui/Container";
 import Link from "next/link";
 import { SmartImage as Image } from "@/components/ui/SmartImage";
 import { HeroFeatureCards } from "@/components/home/HeroFeatureCards";
-import { HomeFaqSection } from "@/components/home/HomeFaqSection";
-import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { PopularRoomsSection, type PopularRoomItem } from "@/components/home/PopularRoomsSection";
 import { PostList } from "@/components/posts/PostList";
 import { resolveHeroFeatureCards } from "@/lib/home/heroFeatureCards";
@@ -273,10 +271,6 @@ export default async function HomePage() {
       </section>
 
       <PopularRoomsSection items={popularRoomItems} />
-
-      <HowItWorksSection />
-
-      <HomeFaqSection />
     </div>
   );
 }
