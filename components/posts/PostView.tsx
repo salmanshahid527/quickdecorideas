@@ -39,7 +39,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
         ) : null}
       </header>
 
-      {post.featuredImage?.url ? (
+      {/* {post.featuredImage?.url ? (
         <div className="relative aspect-video overflow-hidden rounded-2xl bg-black/5">
           <Image
             src={post.featuredImage.url}
@@ -50,7 +50,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
             className="object-cover"
           />
         </div>
-      ) : null}
+      ) : null} */}
 
       <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
 
