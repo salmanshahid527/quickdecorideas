@@ -37,14 +37,20 @@ export function Footer({ categories }: { categories: Category[] }) {
           <div className="flex flex-col items-start space-y-4">
             <h3 className="text-sm font-semibold tracking-wide text-[var(--brand-primary)]">Pages</h3>
             <div className="flex flex-col gap-2 text-sm text-[var(--muted)]">
-              <Link href="/privacy" className="transition hover:text-[var(--brand-primary)]">
-                Privacy
+             <Link href="/" className="transition hover:text-[var(--brand-primary)]">
+                Home
               </Link>
               <Link href="/contact" className="transition hover:text-[var(--brand-primary)]">
                 Contact
               </Link>
               <Link href="/about" className="transition hover:text-[var(--brand-primary)]">
                 About
+              </Link>
+              <Link href="/privacy" className="transition hover:text-[var(--brand-primary)]">
+                Privacy Policy
+              </Link>
+              <Link href="/disclaimer" className="transition hover:text-[var(--brand-primary)]">
+                Disclaimer  
               </Link>
             </div>
           </div>
