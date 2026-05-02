@@ -39,19 +39,6 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
         ) : null}
       </header>
 
-      {/* {post.featuredImage?.url ? (
-        <div className="relative aspect-video overflow-hidden rounded-2xl bg-black/5">
-          <Image
-            src={post.featuredImage.url}
-            alt={post.featuredImage.alt ?? post.title}
-            fill
-            priority
-            sizes="(min-width: 1280px) 1120px, (min-width: 768px) 90vw, 100vw"
-            className="object-cover"
-          />
-        </div>
-      ) : null} */}
-
       <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
 
       {/* FAQ Section */}
