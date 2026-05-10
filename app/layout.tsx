@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   description: "Practical decor tips, room ideas, and inspiration.",
   robots: { index: true, follow: true },
   referrer: "origin-when-cross-origin",
+  other: {
+    "p:domain_verify": "a91deb4481071028a584edcc27f91f72",
+  },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
