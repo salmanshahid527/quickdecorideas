@@ -2,6 +2,7 @@ import { SmartImage as Image } from "@/components/ui/SmartImage";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import type { Category } from "@/lib/wp/types";
+import { decode } from "html-entities";
 
 export type CategoryCardImage = { src: string; alt: string };
 
@@ -14,7 +15,7 @@ const FALLBACK_IMAGE = "/images/home-decor-inspiration.svg";
 
 function CategorySpaceCard({ category, image }: PopularRoomItem) {
   const src = image?.src ?? FALLBACK_IMAGE;
-  const alt = image?.alt ?? `${category.name} decor ideas`;
+  const alt = image?.alt ?? `${decode(category.name)} decor ideas`;
   const isSvg = /\.svg(\?|$)/i.test(src);
   const count = typeof category.count === "number" ? category.count : null;
 
@@ -38,7 +39,8 @@ function CategorySpaceCard({ category, image }: PopularRoomItem) {
         />
         <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
           <div className="text-sm font-semibold leading-snug text-white drop-shadow-sm sm:text-base">
-            {category.name}
+            
+              {decode(category.name)}
           </div>
           {count != null ? (
             <div className="mt-0.5 text-xs font-medium text-white/85">{count} posts</div>

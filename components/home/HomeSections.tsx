@@ -6,6 +6,7 @@ import type { Author, Category, Post } from "@/lib/wp/types";
 import { useCategories } from "@/hooks/useCategories";
 import { usePosts } from "@/hooks/usePosts";
 import { PostList } from "@/components/posts/PostList";
+import { decode } from "html-entities";
 
 export type HomeInitialData = {
   categories: Category[];
@@ -20,7 +21,7 @@ function CategorySection({ category, initialPosts }: { category: Category; initi
 
   if (!posts.length) return null;
 
-  const title = category.slug === "kitchen-dining" ? "Kitchen & Dining" : category.name;
+  const title = category.slug === "kitchen-dining" ? "Kitchen & Dining" : decode(category.name);
 
   return (
     <section className="space-y-4">
@@ -123,7 +124,8 @@ export function HomeSections({ initial }: { initial: HomeInitialData }) {
               href={`/category/${c.slug}`}
               className="rounded-full border border-transparent bg-[var(--surface-muted)] px-3 py-1 text-sm text-[var(--muted)] transition hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)] hover:text-[var(--brand-primary)]"
             >
-              {c.name}
+              {decode(c.name)}
+              {/* {c.name} */}
             </Link>
           ))}
         </div>

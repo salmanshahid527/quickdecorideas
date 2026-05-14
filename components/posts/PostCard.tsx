@@ -1,6 +1,7 @@
 import { SmartImage as Image } from "@/components/ui/SmartImage";
 import Link from "next/link";
 import type { Post } from "@/lib/wp/types";
+import { decode } from "html-entities";
 
 function ArrowRightIcon() {
   return (
@@ -69,7 +70,7 @@ export function PostCard({
             <p className="text-xs font-semibold uppercase tracking-wide text-[var(--brand-secondary)]">
               {post.categories
                 .slice(0, 2)
-                .map((c) => c.name)
+                .map((c) => decode(c.name) )
                 .join(" • ")}
             </p>
           ) : null}
