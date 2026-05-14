@@ -1,7 +1,10 @@
 /** Strip all HTML tags */
+import { decode } from "html-entities";
+
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, "").trim();
+  return decode(html.replace(/<[^>]*>/g, "").trim());
 }
+
 
 /**
  * Extract FAQ items from HTML content (expects h3 tags followed by p tags).
