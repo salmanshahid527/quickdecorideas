@@ -40,12 +40,48 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
       </header>
 
       <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+      
+{/* Author Card */}
+{post.author?.name && (
+  <div className="mt-10 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-6 shadow-sm">
 
-      {/* FAQ Section */}
-      {faqItems.length > 0 && (
-        <FAQAccordion items={faqItems} />
+    <div className="flex items-start gap-4">
+
+      {/* Avatar */}
+      {post.author?.avatarUrl ? (
+        <div className="relative h-14 w-14 overflow-hidden rounded-full shrink-0">
+          <Image
+            src={post.author.avatarUrl}
+            alt={post.author.name}
+            fill
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-lg font-semibold text-white">
+          {post.author.name.charAt(0)}
+        </div>
       )}
 
+      {/* Content */}
+      <div className="flex-1">
+        <h3 className="text-base font-semibold text-[var(--foreground)]">
+          {post.author.name}
+        </h3>
+
+        <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
+          {post.author.bio ||
+            "Passionate writer sharing home decor, lifestyle, and modern living inspiration."}
+        </p>
+
+        <div className="mt-3 text-xs font-medium uppercase tracking-wide text-[var(--brand-primary)]">
+          Author • Quick Decor Ideas
+        </div>
+      </div>
+
+    </div>
+  </div>
+)}
       {/* Related Posts Section */}
       {relatedPosts.length > 0 && (
         <RelatedPosts posts={relatedPosts} currentPostSlug={post.slug} />
