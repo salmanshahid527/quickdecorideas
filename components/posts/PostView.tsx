@@ -3,6 +3,7 @@ import type { Post } from "@/lib/wp/types";
 import { RelatedPosts } from "./RelatedPosts";
 import { FAQAccordion, type FAQItem } from "./FAQAccordion";
 import { extractFAQFromHtml } from "@/lib/html/markup";
+import { addPinterestOverlaysToPostContentHtml } from "@/lib/html/pinterestOverlay";
 
 function formatDateTimeShort(iso?: string): string {
   if (!iso) return "";
@@ -20,6 +21,9 @@ function formatDateTimeShort(iso?: string): string {
 export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts?: Post[] }) {
   // Extract FAQ items from the content HTML
   const faqItems: FAQItem[] = post.contentHtml ? extractFAQFromHtml(post.contentHtml) : [];
+  const contentHtml = post.contentHtml
+    ? addPinterestOverlaysToPostContentHtml(post.contentHtml)
+    : "";
 
   return (
     <article className="space-y-6">
@@ -39,7 +43,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
         ) : null}
       </header>
 
-      <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+      <div className="wp-content" dangerouslySetInnerHTML={{ __html: contentHtml }} />
       
 {/* Author Card */}
 {post.author?.name && (
