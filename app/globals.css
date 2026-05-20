@@ -223,3 +223,54 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Pinterest pin overlay — post body images only */
+.wp-content .wp-image-pin-wrap {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-content .wp-image-pin-wrap :where(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.wp-content .wp-pinterest-pin-btn {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  background-color: #dc2626;
+  color: #fff;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  text-decoration: none;
+}
+
+.wp-content .wp-image-pin-wrap:hover .wp-pinterest-pin-btn,
+.wp-content .wp-image-pin-wrap:focus-within .wp-pinterest-pin-btn {
+  opacity: 1;
+}
+
+.wp-content .wp-pinterest-pin-btn:hover {
+  transform: scale(1.1);
+}
+
+.wp-content .wp-pinterest-pin-btn:focus-visible {
+  opacity: 1;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
