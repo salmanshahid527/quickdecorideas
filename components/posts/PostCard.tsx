@@ -53,7 +53,7 @@ export function PostCard({
         href="https://www.pinterest.com/quickdecorideas/"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-3 left-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-red-600 text-white p-2 rounded-full shadow-md hover:scale-110 flex items-center justify-center"
+        className="absolute top-3 left-3 z-20 opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity duration-300 bg-red-600 text-white p-2 rounded-full shadow-md hover:scale-110 flex items-center justify-center"
         aria-label="Open Pinterest"
       >
         {/* Pinterest Icon */}
