@@ -12,7 +12,9 @@ const primaryNavItems = [
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
   { label: "Privacy Policy", href: "/privacy" },
-  { label: "Disclaimer", href: "/disclaimer" }
+  { label: "Disclaimer", href: "/disclaimer" },
+    { label: "Terms & Conditions", href: "/terms-conditions" },
+    { label: "About Aria", href: "/meet-aria" },
 
 
 ] as const;
@@ -143,20 +145,13 @@ export function SiteHeader({ categoryNavItems }: { categoryNavItems?: SiteHeader
           </nav>
 
           <div className="col-span-5 flex items-center justify-end gap-2 md:col-span-3">
-            <Link
-              href="/search"
-              aria-label="Search"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-[var(--brand-primary)]"
-            >
-              <SearchIcon />
-            </Link>
+      <Link href="/search"   aria-label="Search"
+  className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-[var(--brand-primary)]"
+>
+  <SearchIcon className="h-4 w-4" /> 
+  <span>Search</span>
+</Link>
 
-            <Link
-              href="/contact"
-              className="hidden h-10 items-center justify-center rounded-full bg-[var(--brand-primary)] px-5 text-sm font-semibold text-white shadow-[0_2px_10px_rgba(40,86,152,0.28)] transition hover:bg-[var(--brand-primary-hover)] md:inline-flex"
-            >
-              Contact
-            </Link>
 
             <button
               type="button"

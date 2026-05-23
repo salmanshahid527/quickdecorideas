@@ -273,3 +273,28 @@ export async function getPrimaryAuthor(opts?: WpServerFetchOptions): Promise<Aut
   }
 }
 
+
+
+/** getPosts with total page count — pagination ke liye */
+export async function getPostsWithMeta(params?: {
+  perPage?: number;
+  page?: number;
+  categoryId?: number;
+}, opts?: WpServerFetchOptions): Promise<{ posts: Post[]; totalPages: number; total: number }> {
+  try {
+    const result = await fetchWpCollectionJson<WpPost[]>(
+      wpUrl("wp/v2/posts", {
+        per_page: params?.perPage ?? DEFAULT_PER_PAGE,
+        page: params?.page ?? 1,
+        categories: params?.categoryId,
+        _embed: true,
+      }),
+      nextOpts(opts),
+    );
+    const posts = result.data.map((p) => safeMapWpPost(p)).filter((p): p is Post => p !== null);
+    return { posts, totalPages: result.totalPages, total: result.total };
+  } catch (err) {
+    console.error("getPostsWithMeta: WordPress request failed", err);
+    return { posts: [], totalPages: 0, total: 0 };
+  }
+}

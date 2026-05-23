@@ -15,7 +15,6 @@ export function Footer({ categories }: { categories: Category[] }) {
               Practical decor tips, room ideas, and inspiration—updated daily to help you design
               beautiful spaces effortlessly.
             </p>
-
       
           </div>
 
@@ -54,6 +53,12 @@ export function Footer({ categories }: { categories: Category[] }) {
               <Link href="/disclaimer" className="transition hover:text-[var(--brand-primary)]">
                 Disclaimer  
               </Link>
+              <Link href="/terms-conditions" className="transition hover:text-[var(--brand-primary)]">
+                Terms & Conditions  
+              </Link>
+              <Link href="/meet-aria" className="transition hover:text-[var(--brand-primary)]">
+                 About Aria
+               </Link>
             </div>
           </div>
         </div>
