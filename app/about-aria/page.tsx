@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page?.title ?? "Meet Aria",
     description: page ? metaDescriptionFromWpPage(page, MEET_ARIA_META_FALLBACK) : MEET_ARIA_META_FALLBACK,
     canonical: "/meet-aria",
-    type: "website", // Changed from "profile" to "website" to fix the TypeScript red line
+    type: "website", 
   });
 }
 
