@@ -4,6 +4,7 @@ import { RelatedPosts } from "./RelatedPosts";
 import { FAQAccordion, type FAQItem } from "./FAQAccordion";
 import { extractFAQFromHtml } from "@/lib/html/markup";
 import { addPinterestOverlaysToPostContentHtml } from "@/lib/html/pinterestOverlay";
+import Link from "next/link";
 
 function formatDateTimeShort(iso?: string): string {
   if (!iso) return "";
@@ -82,6 +83,12 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
           Author • Quick Decor Ideas
         </div>
       </div>
+      <Link 
+            href="/meet-aria" 
+            className="text-xs font-medium text-[#8a7560] underline underline-offset-4 transition hover:text-[#6b5c47]"
+          >
+            Read Profile &rarr;
+          </Link>
 
     </div>
   </div>
