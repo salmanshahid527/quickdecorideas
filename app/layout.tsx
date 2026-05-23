@@ -10,6 +10,9 @@ import { PAGE_ISR_SECONDS } from "@/lib/seo/isr";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import type { Category } from "@/lib/wp/types";
+import { ConsentProvider } from "@/context/ConsentContext";
+import CookieBanner from "@/components/cookies/CookieBanner";
+import ConsentGuard from "@/components/cookies/ConsentGuard";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -70,6 +73,7 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} bg-[var(--surface)] font-sans text-[var(--foreground)] antialiased`}
       >
+
         {gaId && (
           <>
             <Script
@@ -82,12 +86,18 @@ export default async function RootLayout({
           </>
         )}
         <OrganizationWebSiteJsonLd />
+            <ConsentProvider>
+
         <ReactQueryProvider>
           <SiteHeader categoryNavItems={categoryNavItems} />
 
           <main className="min-h-[70vh] bg-[var(--surface)]">{children}</main>
           <Footer categories={categories} />
+         <CookieBanner />
+        <ConsentGuard />
         </ReactQueryProvider>
+      </ConsentProvider>
+
       </body>
     </html>
   );
