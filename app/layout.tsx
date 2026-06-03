@@ -19,6 +19,10 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   adjustFontFallback: true,
+    preload: true,        // ← yeh add karo
+      weight: ["400", "500", "600", "700"],  // ← sirf yeh weights add karo
+
+
 });
 
 export const metadata: Metadata = {
@@ -69,7 +73,7 @@ export default async function RootLayout({
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
 
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <body
         className={`${inter.variable} bg-[var(--surface)] font-sans text-[var(--foreground)] antialiased`}
       >

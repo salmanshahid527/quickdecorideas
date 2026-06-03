@@ -106,7 +106,7 @@ export default async function HomePage() {
     const [livingPosts, kitchenPosts] = await Promise.all([
       livingCat
         ? getPosts({ categoryId: livingCat.id, perPage: 1 }, { revalidate: PAGE_ISR_SECONDS })
-        : Promise.resolve([] as Post[]),
+        : Promise.resolve([] as Post []),
       kitchenCat
         ? getPosts({ categoryId: kitchenCat.id, perPage: 1 }, { revalidate: PAGE_ISR_SECONDS })
         : Promise.resolve([] as Post[]),

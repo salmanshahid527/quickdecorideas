@@ -24,6 +24,8 @@ export function HeroFeatureCards({ items }: { items: HeroFeatureCardData[] }) {
                 alt={alt}
                 fill
                 unoptimized={isSvg}
+                 priority={index === 0}          // ← 1st card priority
+                 loading={index === 0 ? "eager" : "lazy"}  // ← 1st card eager, baaki lazy
                 className="object-cover transition duration-300 group-hover:scale-[1.04]"
                 sizes="(min-width: 768px) 33vw, 100vw"
               />

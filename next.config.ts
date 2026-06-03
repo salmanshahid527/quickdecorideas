@@ -57,7 +57,9 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: configDir,
   images: {
     /** Bypass Vercel Image Optimization transforms (Hobby quota); WP/CDN serve sized assets */
-    unoptimized: true,
+    // unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
+      minimumCacheTTL: 31536000,           
     remotePatterns: imageRemotePatterns(),
   },
 };

@@ -13,10 +13,8 @@ const primaryNavItems = [
   { label: "Contact", href: "/contact" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Disclaimer", href: "/disclaimer" },
-    { label: "Terms & Conditions", href: "/terms-conditions" },
-    { label: "About Aria", href: "/meet-aria" },
-
-
+  { label: "Terms & Conditions", href: "/terms-conditions" },
+  { label: "About Aria", href: "/meet-aria" },
 ] as const;
 
 /** Matches live WP slugs when categories have not loaded yet. */
@@ -115,16 +113,21 @@ export function SiteHeader({ categoryNavItems }: { categoryNavItems?: SiteHeader
       />
       <Container>
         <div className="grid h-[4.25rem] grid-cols-12 items-center gap-3">
+          
+          {/* Logo Section Modifed with Wrapper Box */}
           <div className="col-span-7 md:col-span-3">
-            <Link href="/" className="group inline-flex items-center gap-3">
-              <Image
-                src="/quick-decor-logo.png"
-                alt="Quick Decor Ideas"
-                width={160}
-                height={40}
-                priority
-                className="h-9 w-auto object-contain sm:h-10"
-              />
+            <Link href="/" className="group inline-flex items-center">
+              {/* 👇 This wrapper div preserves the aspect ratio and eliminates layout shift */}
+              <div className="relative h-9 w-[144px] sm:h-10 sm:w-[160px]">
+                <Image
+                  src="/quick-decor-logo.png"
+                  alt="Quick Decor Ideas"
+                  fill
+                  priority
+                  className="object-contain"
+                  sizes="(max-width: 640px) 144px, 160px"
+                />
+              </div>
             </Link>
           </div>
 
@@ -145,13 +148,14 @@ export function SiteHeader({ categoryNavItems }: { categoryNavItems?: SiteHeader
           </nav>
 
           <div className="col-span-5 flex items-center justify-end gap-2 md:col-span-3">
-      <Link href="/search"   aria-label="Search"
-  className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-[var(--brand-primary)]"
->
-  <SearchIcon className="h-4 w-4" /> 
-  <span>Search</span>
-</Link>
-
+            <Link 
+              href="/search"   
+              aria-label="Search"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-[var(--brand-primary)]"
+            >
+              <SearchIcon className="h-4 w-4" /> 
+              <span>Search</span>
+            </Link>
 
             <button
               type="button"
