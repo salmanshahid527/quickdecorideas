@@ -4,12 +4,15 @@ import { SearchView } from "@/components/search/SearchView";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { SITE_NAME } from "@/lib/seo/site";
 
-export const metadata: Metadata = buildMetadata({
+export const metadata: Metadata = {
+  ...buildMetadata({
   title: "Search",
   description: `Search room ideas and decor articles on ${SITE_NAME}.`,
   canonical: "/search",
   type: "website",
-});
+  }),
+  robots: { index: false, follow: true },
+};
 
 export default function SearchPage() {
   return (
