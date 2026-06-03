@@ -50,6 +50,8 @@ export const viewport: Viewport = {
   ],
 };
 
+const GROW_INITIALIZER = `!(function(){window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","U2l0ZToyZTM5MDVjMC1iNTdjLTRkMGUtOTUzYS1mNzkxYjcwMTlmYmY=");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();`;
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -70,6 +72,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* Grow.me expects a literal script tag — next/script serializes differently and fails their checker */}
+        <script data-grow-initializer="" dangerouslySetInnerHTML={{ __html: GROW_INITIALIZER }} />
+      </head>
       <body
         className={`${inter.variable} bg-[var(--surface)] font-sans text-[var(--foreground)] antialiased`}
       >
@@ -85,15 +91,6 @@ export default async function RootLayout({
             </Script>
           </>
         )}
-        <Script
-          id="grow-me"
-          strategy="beforeInteractive"
-          data-grow-initializer=""
-          dangerouslySetInnerHTML={{
-            __html:
-              '!(function(){window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","U2l0ZToyZTM5MDVjMC1iNTdjLTRkMGUtOTUzYS1mNzkxYjcwMTlmYmY=");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();',
-          }}
-        />
         <OrganizationWebSiteJsonLd />
             <ConsentProvider>
 
