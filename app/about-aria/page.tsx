@@ -7,7 +7,7 @@ import { wpMarketingPageSlug } from "@/lib/wp/wpPageSlugs";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 const MEET_ARIA_META_FALLBACK =
   "Meet Aria, the creative mind behind Quick Decor Ideas. Discover practical decor tips, inspiration, and interior design stories.";

@@ -7,7 +7,7 @@ import { wpMarketingPageSlug } from "@/lib/wp/wpPageSlugs";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 const CONTACT_META_FALLBACK =
   "Contact Quick Decor Ideas — questions, collaborations, and reader feedback.";

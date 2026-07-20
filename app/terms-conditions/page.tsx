@@ -7,7 +7,7 @@ import { wpMarketingPageSlug } from "@/lib/wp/wpPageSlugs";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 const TERMS_META_FALLBACK =
   "Terms and conditions for Quick Decor Ideas — guidelines and rules for using our website and services.";

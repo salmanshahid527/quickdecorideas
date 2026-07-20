@@ -4,6 +4,8 @@ import { SearchView } from "@/components/search/SearchView";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { SITE_NAME } from "@/lib/seo/site";
 
+export const revalidate = 43200;
+
 export const metadata: Metadata = {
   ...buildMetadata({
   title: "Search",

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { SITE_NAME } from "@/lib/seo/site";
 
 /** Literal for Next.js; keep equal to `SITEMAP_ISR_SECONDS` in `lib/seo/isr.ts`. */
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

@@ -7,7 +7,7 @@ import { wpMarketingPageSlug } from "@/lib/wp/wpPageSlugs";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 const PRIVACY_META_FALLBACK =
   "Privacy policy for Quick Decor Ideas — how we handle data when you use our site and content.";

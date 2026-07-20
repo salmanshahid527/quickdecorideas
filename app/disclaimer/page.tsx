@@ -6,7 +6,7 @@ import { getPageBySlug } from "@/lib/wp/server";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { metaDescriptionFromWpPage } from "@/lib/seo/wpMeta";
 
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 const DISCLAIMER_META_FALLBACK =
   "Disclaimer for Quick Decor Ideas — general informational content, no professional advice, and liability limitations.";

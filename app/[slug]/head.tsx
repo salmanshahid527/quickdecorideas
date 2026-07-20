@@ -1,6 +1,6 @@
 import { getPageBySlug, getPostBySlug } from "@/lib/wp/server";
 
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 type Props = { params: Promise<{ slug: string }> };
 

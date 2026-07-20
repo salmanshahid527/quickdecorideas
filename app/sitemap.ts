@@ -11,7 +11,7 @@ import {
 } from "@/lib/wp/server";
 
 /** Literal for Next.js; keep equal to `SITEMAP_ISR_SECONDS` in `lib/seo/isr.ts`. */
-export const revalidate = 3600;
+export const revalidate = 43200;
 
 const SITEMAP_FETCH = { revalidate: SITEMAP_ISR_SECONDS } as const;
 
