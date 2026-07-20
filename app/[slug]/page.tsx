@@ -11,6 +11,7 @@ import { fetchRankMathDescription } from "@/lib/wp/rankmath";
 import { SITE_NAME } from "@/lib/seo/site";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import AdUnit from "@/components/ads/AdUnit";
 
 export const revalidate = 43200;
 
@@ -97,7 +98,16 @@ export default async function SlugPage({ params }: Props) {
           ]}
         />
         <ArticleJsonLd post={post} />
-        <PostView post={post} relatedPosts={relatedPosts} />
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+          <PostView post={post} relatedPosts={relatedPosts} />
+          <aside>
+            <AdUnit
+              adKey={process.env.NEXT_PUBLIC_ADSTERRA_RECT_KEY!}
+              width={300}
+              height={250}
+            />
+          </aside>
+        </div>
       </Container>
     </div>
   );

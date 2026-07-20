@@ -5,6 +5,7 @@ import { RelatedPosts } from "./RelatedPosts";
 // import { extractFAQFromHtml } from "@/lib/html/markup";
 import { addPinterestOverlaysToPostContentHtml } from "@/lib/html/pinterestOverlay";
 import Link from "next/link";
+import NativeBannerAd from "@/components/ads/NativeBannerAd";
 
 function formatDateTimeShort(iso?: string): string {
   if (!iso) return "";
@@ -45,6 +46,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
       </header>
 
       <div className="wp-content" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      <NativeBannerAd />
       
 {/* Author Card */}
 {post.author?.name && (

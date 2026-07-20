@@ -16,7 +16,8 @@ import { PAGE_ISR_SECONDS } from "@/lib/seo/isr";
 import { SITE_NAME } from "@/lib/seo/site";
 import { getCategories, getPosts } from "@/lib/wp/server";
 import type { Category, Post } from "@/lib/wp/types";
-
+import AdUnit from "@/components/ads/AdUnit";
+import  NativeBannerAd  from "@/components/ads/NativeBannerAd";
 /** Next.js: must be a literal. Match `PAGE_ISR_SECONDS` in `lib/seo/isr.ts`. */
 export const revalidate = 43200;
 
@@ -142,6 +143,23 @@ export default async function HomePage() {
 
   return (
     <div>
+      <Container>
+        <div className="hidden md:block">
+          <AdUnit
+            adKey={process.env.NEXT_PUBLIC_ADSTERRA_LEADERBOARD_KEY!}
+            width={728}
+            height={90}
+          />
+        </div>
+        <div className="md:hidden">
+          <AdUnit
+            adKey={process.env.NEXT_PUBLIC_ADSTERRA_MOBILE_KEY!}
+            width={320}
+            height={50}
+          />
+        </div>
+      </Container>
+
       <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-[#d8e6f5] via-[#e4eef9] to-[#edf4fb]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[rgba(181,204,231,0.45)] blur-3xl" />
@@ -271,6 +289,9 @@ export default async function HomePage() {
       </section>
 
       <PopularRoomsSection items={popularRoomItems} />
+      <NativeBannerAd />
     </div>
+
+    
   );
 }
