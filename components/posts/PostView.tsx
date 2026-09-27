@@ -76,8 +76,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
         </h3>
 
         <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
-          {post.author.bio ||
-            "Passionate writer sharing home decor, lifestyle, and modern living inspiration."}
+          {post.author.bio}
         </p>
 
         <div className="mt-3 text-xs font-medium uppercase tracking-wide text-[var(--brand-primary)]">
@@ -85,10 +84,10 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
         </div>
       </div>
       <Link 
-            href="/meet-aria" 
+            href="/about" 
             className="text-xs font-medium text-[#8a7560] underline underline-offset-4 transition hover:text-[#6b5c47]"
           >
-            Read Profile &rarr;
+            About the author &rarr;
           </Link>
 
     </div>
