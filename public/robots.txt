@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
-
 Disallow: /api/
+# Internal search result pages are thin/duplicate content.
+Disallow: /search$
+Disallow: /search?
+Disallow: /search/
 
 Sitemap: https://quickdecorideas.com/sitemap.xml

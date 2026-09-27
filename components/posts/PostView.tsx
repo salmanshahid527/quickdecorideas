@@ -4,8 +4,8 @@ import { RelatedPosts } from "./RelatedPosts";
 // import { FAQAccordion, type FAQItem } from "./FAQAccordion";
 // import { extractFAQFromHtml } from "@/lib/html/markup";
 import { addPinterestOverlaysToPostContentHtml } from "@/lib/html/pinterestOverlay";
+import { addMissingImageAlts } from "@/lib/html/imageAlt";
 import Link from "next/link";
-import NativeBannerAd from "@/components/ads/NativeBannerAd";
 
 function formatDateTimeShort(iso?: string): string {
   if (!iso) return "";
@@ -24,7 +24,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
   // Extract FAQ items from the content HTML
   // const faqItems: FAQItem[] = post.contentHtml ? extractFAQFromHtml(post.contentHtml) : [];
   const contentHtml = post.contentHtml
-    ? addPinterestOverlaysToPostContentHtml(post.contentHtml)
+    ? addPinterestOverlaysToPostContentHtml(addMissingImageAlts(post.contentHtml))
     : "";
 
   return ( 
@@ -46,7 +46,6 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
       </header>
 
       <div className="wp-content" dangerouslySetInnerHTML={{ __html: contentHtml }} />
-      <NativeBannerAd />
       
 {/* Author Card */}
 {post.author?.name && (
