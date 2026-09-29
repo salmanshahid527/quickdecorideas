@@ -4,8 +4,8 @@ import { RelatedPosts } from "./RelatedPosts";
 // import { FAQAccordion, type FAQItem } from "./FAQAccordion";
 // import { extractFAQFromHtml } from "@/lib/html/markup";
 import { addPinterestOverlaysToPostContentHtml } from "@/lib/html/pinterestOverlay";
+import { addMissingImageAlts } from "@/lib/html/imageAlt";
 import Link from "next/link";
-import NativeBannerAd from "@/components/ads/NativeBannerAd";
 
 function formatDateTimeShort(iso?: string): string {
   if (!iso) return "";
@@ -24,7 +24,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
   // Extract FAQ items from the content HTML
   // const faqItems: FAQItem[] = post.contentHtml ? extractFAQFromHtml(post.contentHtml) : [];
   const contentHtml = post.contentHtml
-    ? addPinterestOverlaysToPostContentHtml(post.contentHtml)
+    ? addPinterestOverlaysToPostContentHtml(addMissingImageAlts(post.contentHtml))
     : "";
 
   return ( 
@@ -46,7 +46,6 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
       </header>
 
       <div className="wp-content" dangerouslySetInnerHTML={{ __html: contentHtml }} />
-      <NativeBannerAd />
       
 {/* Author Card */}
 {post.author?.name && (
@@ -77,8 +76,7 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
         </h3>
 
         <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
-          {post.author.bio ||
-            "Passionate writer sharing home decor, lifestyle, and modern living inspiration."}
+          {post.author.bio}
         </p>
 
         <div className="mt-3 text-xs font-medium uppercase tracking-wide text-[var(--brand-primary)]">
@@ -86,10 +84,10 @@ export function PostView({ post, relatedPosts = [] }: { post: Post; relatedPosts
         </div>
       </div>
       <Link 
-            href="/meet-aria" 
+            href="/about" 
             className="text-xs font-medium text-[#8a7560] underline underline-offset-4 transition hover:text-[#6b5c47]"
           >
-            Read Profile &rarr;
+            About the author &rarr;
           </Link>
 
     </div>

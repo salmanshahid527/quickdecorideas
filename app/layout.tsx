@@ -13,7 +13,6 @@ import type { Category } from "@/lib/wp/types";
 import { ConsentProvider } from "@/context/ConsentContext";
 import CookieBanner from "@/components/cookies/CookieBanner";
 import ConsentGuard from "@/components/cookies/ConsentGuard";
-import AdsGlobalScripts from "@/components/ads/AdsGlobalScripts";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -104,7 +103,6 @@ export default async function RootLayout({
         <ConsentGuard />
         </ReactQueryProvider>
       </ConsentProvider>
-        <AdsGlobalScripts />
 
       </body>
     </html>

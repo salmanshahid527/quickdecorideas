@@ -56,9 +56,6 @@ export function Footer({ categories }: { categories: Category[] }) {
               <Link href="/terms-conditions" className="transition hover:text-[var(--brand-primary)]">
                 Terms & Conditions  
               </Link>
-              <Link href="/meet-aria" className="transition hover:text-[var(--brand-primary)]">
-                 About Aria
-               </Link>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ export function ArticleJsonLd({ post }: { post: Post }) {
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     author: post.author?.name
-      ? { "@type": "Person", name: post.author.name }
+      ? { "@type": "Person", name: post.author.name, url: `${SITE_URL}/about` }
       : undefined,
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     image: imageUrl ? [imageUrl.startsWith("http") ? imageUrl : absoluteUrl(imageUrl)] : undefined,

@@ -55,6 +55,10 @@ function imageRemotePatterns(): RemotePattern[] {
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: configDir,
+  async redirects() {
+    // Persona author page retired; the author bio lives on /about.
+    return [{ source: "/meet-aria", destination: "/about", permanent: true }];
+  },
   images: {
     /** Bypass Vercel Image Optimization transforms (Hobby quota); WP/CDN serve sized assets */
     unoptimized: true,
