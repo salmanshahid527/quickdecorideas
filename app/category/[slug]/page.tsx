@@ -11,15 +11,22 @@ export const revalidate = 43200;
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ page?: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const { page: pageParam } = await searchParams;
+  const currentPage = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
   const category = await getCategoryBySlug(slug);
   if (!category) return {};
 
+  // Each page of a category is its own canonical URL, so Google follows the
+  // links on page 2+ instead of folding them into page 1.
   return buildMetadata({
-    title: `${category.name} ideas & inspiration`,
+    title:
+      currentPage > 1
+        ? `${category.name} ideas & inspiration, page ${currentPage}`
+        : `${category.name} ideas & inspiration`,
     description: categoryMetaDescription(category),
-    canonical: `/category/${slug}`,
+    canonical: currentPage > 1 ? `/category/${slug}?page=${currentPage}` : `/category/${slug}`,
     type: "website",
   });
 }
