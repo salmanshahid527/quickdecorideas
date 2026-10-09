@@ -57,6 +57,18 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       : Promise.resolve([]),
   ]);
 
+  // A page past the last one would be an empty, indexable page (a soft 404). The fetch also
+  // returns empty on a WordPress error, so ask page 1 for the real count: 404 only when it
+  // answered, and fail (not 404) when it did not.
+  if (currentPage > 1 && initialPosts.length === 0) {
+    const first = await getPostsWithMeta(
+      { categoryId: category.id, perPage: 12, page: 1 },
+      { revalidate: PAGE_ISR_SECONDS },
+    );
+    if (first.totalPages === 0) throw new Error("CategoryPage: WordPress unavailable");
+    if (currentPage > first.totalPages) notFound();
+  }
+
   return (
     <div className="py-10">
       <Container>

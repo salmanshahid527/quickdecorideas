@@ -43,7 +43,13 @@ export default async function BlogPage({ searchParams }: Props) {
   }
 
   // A page past the last one would be an empty, indexable page (a soft 404).
-  if (currentPage > 1 && initialPosts.length === 0) notFound();
+  // getPostsWithMeta returns empty on a WordPress error too, so ask page 1 for the real
+  // page count: 404 only when it answered, and fail (not 404) when it did not.
+  if (currentPage > 1 && initialPosts.length === 0) {
+    const first = await getPostsWithMeta({ perPage: 12, page: 1 }, { revalidate: PAGE_ISR_SECONDS });
+    if (first.totalPages === 0) throw new Error("BlogPage: WordPress unavailable");
+    if (currentPage > first.totalPages) notFound();
+  }
 
   return (
     <div className="py-10">

@@ -33,7 +33,7 @@ export function Pagination({
           ← Previous
         </Link>
       ) : (
-        <span className="flex items-center gap-2 rounded-lg border border-[var(--border)] px-5 py-2.5 text-sm font-medium opacity-30 cursor-not-allowed">
+        <span aria-disabled="true" className="flex items-center gap-2 rounded-lg border border-[var(--border)] px-5 py-2.5 text-sm font-medium opacity-30 cursor-not-allowed">
           ← Previous
         </span>
       )}
@@ -50,7 +50,7 @@ export function Pagination({
           Next →
         </Link>
       ) : (
-        <span className="flex items-center gap-2 rounded-lg border border-[var(--border)] px-5 py-2.5 text-sm font-medium opacity-30 cursor-not-allowed">
+        <span aria-disabled="true" className="flex items-center gap-2 rounded-lg border border-[var(--border)] px-5 py-2.5 text-sm font-medium opacity-30 cursor-not-allowed">
           Next →
         </span>
       )}
@@ -63,7 +63,7 @@ export function Pagination({
               <span
                 key={n}
                 aria-current="page"
-                className="px-1 text-sm font-semibold text-[var(--foreground)]"
+                className="px-2 py-2 text-sm font-semibold text-[var(--foreground)]"
               >
                 {n}
               </span>
@@ -71,7 +71,8 @@ export function Pagination({
               <Link
                 key={n}
                 href={pageUrl(n)}
-                className="px-1 text-sm text-[var(--muted)] hover:text-[var(--foreground)]"
+                aria-label={`Page ${n}`}
+                className="px-2 py-2 text-sm text-[var(--muted)] hover:text-[var(--foreground)]"
               >
                 {n}
               </Link>
