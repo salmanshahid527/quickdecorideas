@@ -18,14 +18,14 @@ const SITEMAP_FETCH = { revalidate: SITEMAP_ISR_SECONDS } as const;
 const sitemapCategories = cache(() => getAllCategoriesForSitemap(SITEMAP_FETCH));
 const sitemapPostMeta = cache(() => getPublishedPostsSitemapMeta(SITEMAP_FETCH));
 
+/** No lastModified here: these pages have no real modified date, and a build-time "now" would claim fresh content on every deploy. */
 function staticMarketingEntries(): MetadataRoute.Sitemap {
-  const now = new Date();
   return [
-    { url: SITE_URL, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: SITE_URL, changeFrequency: "weekly", priority: 1 },
+    { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/contact`, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/privacy`, changeFrequency: "yearly", priority: 0.3 },
   ];
 }
 
